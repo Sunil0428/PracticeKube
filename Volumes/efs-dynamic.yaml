@@ -6,6 +6,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: "efs-sc"
+  reclaimPolicy: Retain 
   resources:
     requests:
       storage: 5Gi
