@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: my-expense
+  labels:
+    app: html
+    tier: web
+    project: expense
+spec:
+  # modify replicas according to your case
+  replicas: 2
+  selector:
+    matchLabels:
+      app: html
+      tier: web
+      project: expense
+  template:
+    metadata:
+      labels:
+        app: html
+        tier: web
+        project: expense
+    spec:
+      containers:
+      - name: frontend
+        image: joindevops/frontend:v1
+        resources:
+          requests:
+            memory: "8Mi"     # Minimum amount of memory the container will need
+            cpu: "50m"        # Minimum amount of CPU the container will need
+          limits:
+            memory: "8Mi"    # Maximum amount of memory the container can use
+            cpu: "50m"
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: frontend
+  namespace: my-expense
+spec:
+  type: LoadBalancer
+  selector:
+    app: html
+    tier: web
+    project: expense
+  ports:
+  - name: frontend-service-port
+    protocol: TCP
+    port: 80
+    targetPort: 80
