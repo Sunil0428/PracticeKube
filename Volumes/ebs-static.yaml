@@ -29,9 +29,10 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ebs-static
-  app: html
-  tier: web
-  project: expense
+  labels:
+    app: html
+    tier: web
+    project: expense
 spec:
   containers:
   - name: nginx
@@ -51,7 +52,6 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    name: ebs-static
     app: html
     tier: web
     project: expense
