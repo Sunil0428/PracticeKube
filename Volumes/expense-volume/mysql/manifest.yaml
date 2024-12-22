@@ -43,6 +43,7 @@ spec:
     - metadata:
         name: my-pvc
       spec:
+        storageClassName: ebs-sc
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
