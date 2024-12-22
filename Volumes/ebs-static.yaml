@@ -11,3 +11,53 @@ spec:
     driver: ebs.csi.aws.com
     fsType: ext4
     volumeHandle: vol-0d77c387589176932
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-static
+spec:
+  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  volumeName: ebs-static
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ebs-static
+  app: html
+  tier: web
+  project: expense
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    volumeMounts:
+    - name: ebs-static
+      mountPath: /usr/share/nginx/html
+  volumes:
+  - name: ebs-static
+    persistentVolumeClaim:
+      claimName: ebs-static
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: ebs-static
+spec:
+  type: LoadBalancer
+  selector:
+    name: ebs-static
+    app: html
+    tier: web
+    project: expense
+  ports:
+  - name: nginx-svc-port
+    protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30007
