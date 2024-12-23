@@ -9,7 +9,7 @@ metadata:
     project: expense
 spec:
   # modify replicas according to your case
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: html
@@ -61,6 +61,6 @@ spec:
     apiVersion: v1
     kind: Deployment
     name: frontend
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 10
