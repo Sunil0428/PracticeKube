@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: backend
+  namespace: my-expense
+spec:
+  selector:
+    app: nodejs
+    tier: backend
+    project: expense
+  ports:
+  - name: backend-service-port
+    protocol: TCP
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.port }}
