@@ -36,14 +36,6 @@ spec:
         envFrom:
         - configMapRef:
             name: backend
-        resources:
-          requests:
-            memory: "8Mi"     # Minimum amount of memory the container will need
-            cpu: "50m"        # Minimum amount of CPU the container will need
-          limits:
-            memory: "8Mi"    # Maximum amount of memory the container can use
-            cpu: "50m"
-
 ---
 apiVersion: v1
 kind: Service
