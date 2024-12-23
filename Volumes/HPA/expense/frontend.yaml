@@ -2,22 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: expense
+  namespace: my-expense
   labels:
-    app: frontend
+    app: html
     tier: web
     project: expense
 spec:
+  # modify replicas according to your case
   replicas: 2
   selector:
     matchLabels:
-      app: frontend
+      app: html
       tier: web
       project: expense
   template:
     metadata:
       labels:
-        app: frontend
+        app: html
         tier: web
         project: expense
     spec:
@@ -26,52 +27,25 @@ spec:
         image: joindevops/frontend:v1
         resources:
           requests:
-            cpu: 100m
-            memory: 128Mi
-          # limits is greater than or equal to requests
+            memory: "8Mi"     # Minimum amount of memory the container will need
+            cpu: "50m"        # Minimum amount of CPU the container will need
           limits:
-            cpu: 100m
-            memory: 128Mi
-        volumeMounts:
-            - name: nginx-conf
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
-              readOnly: true
-      volumes:
-      - name: nginx-conf
-        configMap:
-          name: frontend
-          items:
-            - key: nginx.conf
-              path: nginx.conf
+            memory: "8Mi"    # Maximum amount of memory the container can use
+            cpu: "50m"
 ---
-kind: Service
 apiVersion: v1
-metadata:
+kind: Service
+metadata: 
   name: frontend
-  namespace: expense
+  namespace: my-expense
 spec:
-  #type: LoadBalancer
+  type: LoadBalancer
   selector:
-    app: frontend
+    app: html
     tier: web
     project: expense
   ports:
-  - name: frontend-port
+  - name: frontend-service-port
     protocol: TCP
-    port: 80 # service port
-    targetPort: 80 # container port
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
- name: frontend
- namespace: expense
-spec:
- scaleTargetRef:
-   apiVersion: apps/v1
-   kind: Deployment
-   name: frontend
- minReplicas: 1
- maxReplicas: 10
- targetCPUUtilizationPercentage: 15 # usually 75 in real environment
+    port: 80
+    targetPort: 80
