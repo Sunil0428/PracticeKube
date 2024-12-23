@@ -43,9 +43,6 @@ spec:
         envFrom:
         - configMapRef:
             name: backend
-        envFrom:
-        - configMapRef:
-            name: backend
         readinessProbe:
           tcpSocket:
             port: 8080
