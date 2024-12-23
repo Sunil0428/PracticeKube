@@ -27,11 +27,12 @@ spec:
         image: joindevops/frontend:v1
         resources:
           requests:
-            memory: "8Mi"     # Minimum amount of memory the container will need
-            cpu: "50m"        # Minimum amount of CPU the container will need
+            cpu: 100m
+            memory: 128Mi
+          # limits is greater than or equal to requests
           limits:
-            memory: "8Mi"    # Maximum amount of memory the container can use
-            cpu: "50m"
+            cpu: 100m
+            memory: 128Mi"
 ---
 apiVersion: v1
 kind: Service
@@ -62,10 +63,4 @@ spec:
     name: frontend
   minReplicas: 1
   maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 10
+  targetCPUUtilizationPercentage: 10
