@@ -54,6 +54,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: frontend
+  namespace: my-expense
 spec:
   scaleTargetRef:
     apiVersion: v1
