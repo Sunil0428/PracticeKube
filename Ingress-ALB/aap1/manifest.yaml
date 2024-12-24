@@ -34,7 +34,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata: 
-  name: samplecluster
+  name: app1
 spec:
   selector:
     tier: frontend
